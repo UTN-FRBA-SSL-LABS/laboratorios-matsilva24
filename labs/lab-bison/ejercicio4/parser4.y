@@ -19,9 +19,6 @@ input:
   ;
 
 /*
- * Sin manejo de errores, el primer token inesperado hace que yyparse()
- * retorne con fallo y el resto de la entrada nunca se procesa.
- *
  * El token especial 'error' le permite a Bison intentar recuperarse:
  * descarta tokens hasta encontrar el símbolo de sincronización (acá '\n')
  * y continúa parseando la siguiente línea.
@@ -36,6 +33,7 @@ input:
  */
 linea:
     exp '\n'    { printf("= %d\n", $1); }
+    |error '\n'    { yyerrok; printf("Error: sintaxis invalida\n"); }
   ;
 
 exp:
